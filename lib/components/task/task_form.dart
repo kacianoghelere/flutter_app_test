@@ -1,6 +1,6 @@
+import 'package:app_test/data/task_state.dart';
 import 'package:app_test/models/task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
 class TaskForm extends StatefulWidget {
@@ -21,6 +21,8 @@ class _TaskFormState extends State<TaskForm> {
 
   @override
   Widget build(BuildContext context) {
+    final taskState = TaskState.of(context);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -54,7 +56,7 @@ class _TaskFormState extends State<TaskForm> {
                   value: _currentSliderValue,
                   max: 5,
                   min: 1,
-                  divisions: 5,
+                  divisions: 4,
                   label: _currentSliderValue.round().toString(),
                   onChanged: (double value) {
                     setState(() {
@@ -73,15 +75,15 @@ class _TaskFormState extends State<TaskForm> {
                 FilledButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      var uuid = const Uuid();
-
-                      widget.onSubmit(
-                        Task(
-                          id: uuid.v4(),
-                          name: nameController.text,
-                          difficulty: _currentSliderValue.toInt()
-                        )
+                      Task task = Task(
+                        id: const Uuid().v4(),
+                        name: nameController.text,
+                        difficulty: _currentSliderValue.toInt()
                       );
+
+                      taskState.addTask(task);
+
+                      widget.onSubmit(task);
                     }
                   },
                   child: const Text('Adicionar tarefa'),

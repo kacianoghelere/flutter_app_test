@@ -1,14 +1,12 @@
 import 'package:app_test/components/task/task_difficulty.dart';
-import 'package:app_test/enums/task_enums.dart';
-import 'package:app_test/events/task_update_event.dart';
+import 'package:app_test/data/task_state.dart';
 import 'package:app_test/models/task.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatefulWidget {
   final Task task;
-  final ValueChanged<TaskUpdateEvent> onChanged;
 
-  const TaskCard({super.key, required this.task, required this.onChanged});
+  const TaskCard({super.key, required this.task});
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -17,9 +15,11 @@ class TaskCard extends StatefulWidget {
 class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
+    final taskState = TaskState.of(context);
+
     return Card(
       child: ListTile(
-        leading: CircularProgressIndicator(value: widget.task.level / 10),
+        leading: CircularProgressIndicator(value: widget.task.progress / 10),
         subtitle: TaskDifficulty(task: widget.task),
         title: Text(
           widget.task.name,
@@ -31,12 +31,9 @@ class _TaskCardState extends State<TaskCard> {
         trailing: PopupMenuButton(
           itemBuilder: (BuildContext context) => <PopupMenuEntry>[
             PopupMenuItem(
-              enabled: (widget.task.level < 10),
+              enabled: (widget.task.progress < 10),
               onTap: () {
-                widget.onChanged(TaskUpdateEvent(
-                  task: widget.task,
-                  type: TaskUpdateEventType.upgrade
-                ));
+                // taskState.updateTask(widget.task, widget.task.);
               },
               child: const ListTile(
                 leading: Icon(Icons.arrow_upward),
@@ -44,12 +41,9 @@ class _TaskCardState extends State<TaskCard> {
               ),
             ),
             PopupMenuItem(
-              enabled: (widget.task.level > 0),
+              enabled: (widget.task.progress > 0),
               onTap: () {
-                widget.onChanged(TaskUpdateEvent(
-                  task: widget.task,
-                  type: TaskUpdateEventType.downgrade
-                ));
+                // taskState.updateTask(widget.task.id, widget.task.progress - 10);
               },
               child: const ListTile(
                 leading: Icon(Icons.arrow_downward),
@@ -58,10 +52,7 @@ class _TaskCardState extends State<TaskCard> {
             ),
             PopupMenuItem(
               onTap: () {
-                widget.onChanged(TaskUpdateEvent(
-                  task: widget.task,
-                  type: TaskUpdateEventType.remove
-                ));
+                taskState.removeTask(widget.task);
               },
               child: const ListTile(
                 leading: Icon(Icons.delete),

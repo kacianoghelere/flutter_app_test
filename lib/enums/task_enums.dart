@@ -1,1 +1,1 @@
-enum TaskUpdateEventType { upgrade, downgrade, remove }
+enum TaskUpdateEventType { add, upgrade, downgrade, remove }

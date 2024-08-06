@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AboutScreen extends StatelessWidget {
-  final String title;
+  const AboutScreen({super.key, this.title = 'Sobre'});
 
-  const AboutScreen({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
