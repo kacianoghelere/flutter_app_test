@@ -5,16 +5,16 @@ import 'package:app_test/events/task_update_event.dart';
 import 'package:app_test/models/task.dart';
 import 'package:flutter/material.dart';
 
-class TasksPage extends StatefulWidget {
+class TasksScreen extends StatefulWidget {
   final String title;
 
-  const TasksPage({super.key, required this.title});
+  const TasksScreen({super.key, required this.title});
 
   @override
-  State<TasksPage> createState() => _TasksPageState();
+  State<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _TasksPageState extends State<TasksPage> {
+class _TasksScreenState extends State<TasksScreen> {
   final List<Task> _tasks = [];
 
   void _onChangeTask(TaskUpdateEvent event) {
@@ -24,10 +24,13 @@ class _TasksPageState extends State<TasksPage> {
       switch (event.type) {
         case TaskUpdateEventType.downgrade:
           if (task.level > 0) task.level -= 1;
+          _displaySnackBar('Tarefa atualizada');
         case TaskUpdateEventType.upgrade:
           if (task.level < 10) task.level += 1;
+          _displaySnackBar('Tarefa atualizada');
         case TaskUpdateEventType.remove:
           _tasks.remove(task);
+          _displaySnackBar('Tarefa removida');
         default:
           return;
       }
@@ -38,8 +41,16 @@ class _TasksPageState extends State<TasksPage> {
     Navigator.pop(context);
   }
 
+  void _displaySnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message))
+    );
+  }
+
   void _onSubmit(Task task) {
     setState(() => _tasks.add(task));
+
+    _displaySnackBar('Tarefa adicionada');
 
     _closeDialog();
   }

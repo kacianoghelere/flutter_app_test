@@ -1,4 +1,4 @@
-import 'package:app_test/pages/tasks_page.dart';
+import 'package:app_test/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class TaskApp extends StatelessWidget {
           shadowColor: Theme.of(context).colorScheme.shadow,
         ),
       ),
-      home: const TasksPage(title: 'Minhas tarefas'),
+      home: const TasksScreen(title: 'Minhas tarefas'),
     );
   }
 }
