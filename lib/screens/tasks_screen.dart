@@ -61,10 +61,21 @@ class _TasksScreenState extends State<TasksScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/about');
+            },
+            child: const Text('Sobre'),
+          ),
+        ]
       ),
       body: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: TaskList(tasks: _tasks, onChanged: _onChangeTask),
+        padding: const EdgeInsets.all(16.0),
+        child: TaskList(
+          tasks: _tasks,
+          onChanged: _onChangeTask
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         // onPressed: _addTask,

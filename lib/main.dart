@@ -1,3 +1,4 @@
+import 'package:app_test/screens/about_screen.dart';
 import 'package:app_test/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +14,19 @@ class TaskApp extends StatelessWidget {
     return MaterialApp(
       title: 'My tasks',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple).copyWith(
           surfaceTint: Colors.transparent,
         ),
         appBarTheme: AppBarTheme(
           elevation: 4.0,
           shadowColor: Theme.of(context).colorScheme.shadow,
-        ),
+        )
       ),
-      home: const TasksScreen(title: 'Minhas tarefas'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const TasksScreen(title: 'Minhas tarefas'),
+        '/about': (context) => const AboutScreen(title: 'Sobre')
+      }
     );
   }
 }
