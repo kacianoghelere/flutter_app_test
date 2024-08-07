@@ -30,3 +30,50 @@ class TaskState extends InheritedWidget {
     return oldWidget.taskList.equals(taskList) == false;
   }
 }
+
+class TaskProvider extends StatefulWidget {
+  const TaskProvider({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<TaskProvider> createState() => _TaskProviderState();
+}
+
+class _TaskProviderState extends State<TaskProvider> {
+  List<Task> _tasks = [];
+
+  void _addTask(Task task) {
+    setState(() {
+      _tasks = List.from(_tasks)..add(task);
+    });
+  }
+
+  void _updateTask(Task oldTask, Task newTask) {
+    setState(() {
+      int index = _tasks.indexOf(oldTask);
+
+      if (index != -1) {
+        _tasks[index] = newTask;
+        _tasks = List.from(_tasks); // Create a new list
+      }
+    });
+  }
+
+  void _removeTask(Task task) {
+    setState(() {
+      _tasks = List.from(_tasks)..remove(task);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TaskState(
+      addTask: _addTask,
+      removeTask: _removeTask,
+      updateTask: _updateTask,
+      taskList: _tasks,
+      child: widget.child
+    );
+  }
+}
