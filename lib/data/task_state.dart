@@ -1,11 +1,10 @@
 import 'package:app_test/models/task.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class TaskState extends InheritedWidget {
   final List<Task> taskList;
   final Function(Task) addTask;
-  final Function(Task, Task) updateTask;
+  final Function(Task) updateTask;
   final Function(Task) removeTask;
 
   const TaskState({
@@ -27,7 +26,7 @@ class TaskState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(TaskState oldWidget) {
-    return oldWidget.taskList.equals(taskList) == false;
+    return oldWidget.taskList != taskList;
   }
 }
 
@@ -49,13 +48,13 @@ class _TaskProviderState extends State<TaskProvider> {
     });
   }
 
-  void _updateTask(Task oldTask, Task newTask) {
+  void _updateTask(Task task) {
     setState(() {
-      int index = _tasks.indexOf(oldTask);
+      int index = _tasks.indexWhere((t) => t.id == task.id);
 
       if (index != -1) {
-        _tasks[index] = newTask;
-        _tasks = List.from(_tasks); // Create a new list
+        _tasks[index] = task;
+        _tasks = List.from(_tasks);
       }
     });
   }

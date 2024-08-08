@@ -1,5 +1,6 @@
 import 'package:app_test/components/task/task_form.dart';
 import 'package:app_test/components/task/tasks_list.dart';
+import 'package:app_test/data/task_state.dart';
 import 'package:app_test/models/task.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +11,21 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final taskState = TaskState.of(context);
+
+    int tasksExpectedProgress = taskState.taskList.length;
+
+    double tasksCurrentProgress = 1;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: Column(
+          children: [
+            Text(title),
+            const LinearProgressIndicator(value: 0.5)
+          ],
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -24,7 +36,6 @@ class TasksScreen extends StatelessWidget {
         ]
       ),
       body: Container(
-
         padding: const EdgeInsets.all(16.0),
         child: const TaskList(),
       ),

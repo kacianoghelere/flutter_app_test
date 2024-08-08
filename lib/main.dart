@@ -15,7 +15,10 @@ class TaskApp extends StatelessWidget {
     return TaskProvider(
       child: MaterialApp(
         title: 'My tasks',
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.dark,
         theme: ThemeData(
+          useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple).copyWith(
             surfaceTint: Colors.transparent,
           ),
@@ -24,7 +27,6 @@ class TaskApp extends StatelessWidget {
             shadowColor: Theme.of(context).colorScheme.shadow,
           )
         ),
-        themeMode: ThemeMode.dark,
         initialRoute: '/',
         routes: {
           '/': (context) => const TasksScreen(),
